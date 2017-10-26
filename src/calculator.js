@@ -39,7 +39,7 @@ function click(char){
    done = false
    return result
 }
-function getCalcResult(){
+function getResult(){
 	return result
 }
 function isOperator(char){
