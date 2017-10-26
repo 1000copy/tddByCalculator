@@ -1,3 +1,10 @@
+function Calculator(){
+  this.result = "0"
+}
+Calculator.prototype.getResult= function(){
+  return this.result
+}
+
 var result = "0"
 var done = false
 function isDone(){

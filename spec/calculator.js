@@ -93,6 +93,9 @@ describe("calculator Checker", function() {
     it("replaceLastChar", function() {
       expect(replaceLastChar("1+","-")=="1-").toEqual(true);
     });
-    
+     it("object Calculator", function() {
+      var c = new Calculator()
+      expect(c.getResult()=="0").toEqual(true);
+    });
   });
 });
