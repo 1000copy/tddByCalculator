@@ -1,0 +1,69 @@
+<script src="src/calculator.js"></script>
+<script type="text/javascript">
+  window.onload = function(){
+    console.log("test")
+    var spans = document.querySelectorAll("span")
+    var result = document.getElementById("screen")
+    for (var i = 0; i < spans.length; i++) {
+      var span = spans[i]
+      span.onclick = function(){
+        click(this.innerHTML)
+        result.innerHTML = getCalcResult()
+        if (isDone())
+           clear()
+      }
+    }
+  }
+</script>
+<div id="calculator">
+  <!-- Screen and clear key -->
+  <div class="top">
+    <span class="clear">C</span>
+    <span id="screen">0</span>
+  </div>  
+  <div class="keys">
+    <!-- operators and other keys -->
+    <span>7</span>
+    <span>8</span>
+    <span>9</span>
+    <span class="operator">+</span>
+    <span>4</span>
+    <span>5</span>
+    <span>6</span>
+    <span class="operator">-</span>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span class="operator">/</span>
+    <span>0</span>
+    <span>.</span>
+    <span class="eval">=</span>
+    <span class="operator">*</span>
+  </div>
+</div>
+
+<style>
+#calculator{
+  width: 250px;
+  background-color: grey;
+}
+.keys{
+}
+span{
+  text-align: center;
+  display: inline-block;
+  width:50px;
+  height:50px;
+  background-color: black;
+  color:white;
+  margin-bottom: 5px;
+  font-size: 30px;
+  padding-top: 5px;
+}
+.top #screen{
+  margin-top:10px;
+  width :160px;
+  color:white;
+  background-color: green;
+}
+</style>
