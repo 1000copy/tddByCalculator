@@ -1,0 +1,61 @@
+<script src="src/1.js"></script>
+<script>
+	window.onload=function(){
+		var spans = document.querySelectorAll("span")
+		var result = document.getElementById("screen")
+		for (var i = 0; i < spans.length; i++) {
+			var span = spans[i]
+			span.onclick = function(){
+				click(this.innerHTML)
+				result.innerHTML = getResult()
+			}
+		}
+	}
+</script>
+<div>
+	<span>C</span>
+	<span id="screen">0</span>
+</div>
+<div>
+	<span>7</span>
+	<span>8</span>
+	<span>9</span>
+	<span>+</span>
+</div>
+<div>
+	<span>4</span>
+	<span>5</span>
+	<span>6</span>
+	<span>-</span>
+</div>
+<div>
+	<span>1</span>
+	<span>2</span>
+	<span>3</span>
+	<span>*</span>
+</div>
+<div>
+	<span id="zero">0</span>
+	<span>.</span>
+	<span>=</span>
+	<span>/</span>
+</div>
+<style>
+  span{
+  	background-color: black;
+  	color:white;
+  	width:50px;
+  	height: 50px;
+  	display: inline-block;
+  	margin-bottom: 5px;
+  	font-size: 26px;
+  }
+  #screen{
+  	width: 160px;
+  	color:white;
+  	background-color: green;
+	}
+	#zero{
+		/*width: 105px;*/
+	}
+</style>

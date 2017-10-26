@@ -46,7 +46,7 @@ function click(char){
    done = false
    return result
 }
-function getResult(){
+function getCalcResult(){
 	return result
 }
 function isOperator(char){
