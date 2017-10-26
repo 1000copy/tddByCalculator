@@ -29,7 +29,7 @@ function click(char){
    if (isOperator(char) && result.length==1 && result=="0") {
    	  return result
    }
-   if (char == "." && isDotMore()){
+   if (char == "." && isDotValid()){
    	  return result
    }
    if (result.length==1 && result=="0")
@@ -52,7 +52,7 @@ function lastChar(str){
 function replaceLastChar(str,char){
 	return str.substring(0,str.length-1)+char
 }
-function isDotMore(){
+function isDotValid(){
 	var foundDot = false
 	var foundOperator = false
 	for (var i = result.length - 1; i >= 0; i--) {
