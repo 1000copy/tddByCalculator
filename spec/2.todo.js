@@ -26,5 +26,16 @@ describe("todo app", function() {
         done()
       })
     });
+    it("save mock", function(done) {
+      todo.add("2f")
+      spyOn(todo.net,"postJson").and.callFake(function(){
+        console.log(todo.net.postJson.calls.allArgs())
+        expect(todo.net.postJson).toHaveBeenCalled();
+        done()
+      })
+      todo.saveAll(function(){
+       
+      })
+    });
   });
 });
