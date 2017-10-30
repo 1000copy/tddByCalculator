@@ -29,12 +29,14 @@ describe("todo app", function() {
     it("save mock", function(done) {
       todo.add("2f")
       spyOn(todo.net,"postJson").and.callFake(function(){
-        console.log(todo.net.postJson.calls.allArgs())
         expect(todo.net.postJson).toHaveBeenCalled();
+        // run callback
+        todo.net.postJson.calls.allArgs()[0][2]()
         done()
       })
-      todo.saveAll(function(){
-       
+      todo.saveAll(function(f){
+        console.log(todo.net.postJson.calls.allArgs())
+        // console.log(f)
       })
     });
   });
