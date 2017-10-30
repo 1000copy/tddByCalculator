@@ -39,5 +39,26 @@ describe("todo app", function() {
         // console.log(f)
       })
     });
+    it("waiter and cooker", function() {
+      var cooker = {
+        dish:function(){
+          return 1
+        }
+      }
+      var waiter = {
+        req:function(dishtype){
+          if (dishtype == "product")
+             return 1
+          else
+             return cooker.dish()+1
+        }
+      }
+      spyOn(cooker,"dish").and.callFake(function(){
+        return 42
+      })
+      expect(waiter.req("product")).toEqual(1)
+      expect(waiter.req("from sketch")).toEqual(43)
+      expect(cooker.dish).toHaveBeenCalled()
+    });
   });
 });
