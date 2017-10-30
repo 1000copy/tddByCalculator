@@ -1,69 +1,64 @@
-<script src="src/calculator.js"></script>
+<script src="src/2.todo.js"></script>
 <script type="text/javascript">
   window.onload = function(){
-    console.log("test")
+    // ui 
     var spans = document.querySelectorAll("span")
-    var result = document.getElementById("screen")
-    for (var i = 0; i < spans.length; i++) {
-      var span = spans[i]
-      span.onclick = function(){
-        click(this.innerHTML)
-        result.innerHTML = getCalcResult()
-        if (isDone())
-           clear()
+    var result = document.getElementById("add")
+    var clear = document.getElementById("clear")
+    var todo = document.getElementById("todo")
+    var save = document.getElementById("save")
+    // controller
+    var app = new TodoApp()
+    app.render(dorender)
+    add.onclick = function(){
+      console.log(todo.value)
+      app.add(todo.value)
+      dorender()
+    }
+    clear.onclick = function(){
+      app.clear()
+      dorender()
+    }
+    save.onclick = function(){
+      app.saveAll()
+    }
+    function dorender(){
+      items = app.items 
+      var lis = document.querySelectorAll("li")
+      for (var i = 0; i < lis.length; i++) {
+        var li = lis[i]
+        li.remove()
       }
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i].subject
+        addLiOne(item)
+      }
+    }
+    function addLiOne(str){
+      var ul = document.getElementById("ul")
+      var li = document.createElement("li");
+      li.appendChild(document.createTextNode(str));
+      ul.appendChild(li);
     }
   }
 </script>
-<div id="calculator">
-  <!-- Screen and clear key -->
-  <div class="top">
-    <span class="clear">C</span>
-    <span id="screen">0</span>
+<div>
+  <div>
+    <input value="test" id="todo"/>
+    <button id="add">add</button>
+    <button id="clear">clear done todo</button>
+    <button id="save">save</button>
+    <button id="remotesync">remote dorender</button>
   </div>  
-  <div class="keys">
-    <!-- operators and other keys -->
-    <span>7</span>
-    <span>8</span>
-    <span>9</span>
-    <span class="operator">+</span>
-    <span>4</span>
-    <span>5</span>
-    <span>6</span>
-    <span class="operator">-</span>
-    <span>1</span>
-    <span>2</span>
-    <span>3</span>
-    <span class="operator">/</span>
-    <span>0</span>
-    <span>.</span>
-    <span class="eval">=</span>
-    <span class="operator">*</span>
+  <div>
+    <ul id="ul">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
   </div>
 </div>
 
 <style>
-#calculator{
-  width: 250px;
-  background-color: grey;
-}
-.keys{
-}
-span{
-  text-align: center;
-  display: inline-block;
-  width:50px;
-  height:50px;
-  background-color: black;
-  color:white;
-  margin-bottom: 5px;
-  font-size: 30px;
-  padding-top: 5px;
-}
-.top #screen{
-  margin-top:10px;
-  width :160px;
-  color:white;
-  background-color: green;
-}
+
 </style>
