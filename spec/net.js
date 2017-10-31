@@ -1,5 +1,44 @@
 describe("todo app", function() {
-  describe("todo ajax", function() {
+  describe("net ajax", function() {
+    var net = new Net()
+    var all = [{"id":1,"subject":"1f"},{"id":2,"subject":"2ffff1"}]
+    beforeEach(function() {
+    });
+    it("stub", function() {
+      expect(1).toEqual(1);
+    });
+    it("net", function(done) {
+      
+      net.saveAll(all,function(items){
+        console.log(items)
+        expect(items.length).toEqual(2);
+        done()
+      })
+    });
+    it("net", function(done) {
+      net.loadAll(function(items){
+        expect(items).toEqual(all);
+        done()
+      })
+    });
+    it("net add", function(done) {
+      var item = {id:3,subject:"3f"}
+      net.add(item,function(items){
+        console.log(items)
+        expect(items.length).toEqual(3);
+        done()
+      })
+    });
+    it("net delete", function(done) {
+      var id = 3
+      net.delete(id,function(items){
+        console.log(items)
+        expect(items.length).toEqual(2);
+        done()
+      })
+    });
+  });
+  xdescribe("todo ajax", function() {
     var todo
     beforeEach(function() {
       todo = new TodoApp()

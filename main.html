@@ -1,78 +1,103 @@
+<script src="src/net.js"></script>
+  <script src="src/item.js"></script>
 <script type="text/javascript">
+  var items  = []
   window.onload = function(){
-    var items  = []
+    var iiii = new Items()
     // ui 
     // var add = document.querySelectorAll("add")
-    clear()
-    addSample()
-    function addSample(){
-      var item = {subject:"todo.value"}
-      items.push(item)
-      var item = {subject:"todo.value1"}
-      items.push(item)
-      var item = {subject:"todo.value2"}
-      items.push(item)
-      dorender(items)
-    }
-    var add = document.getElementById("add")
-    var todo = document.getElementById("todo")
-    var clear_ = document.getElementById("clear")
-    // controller
-    add.onclick = function(){
-      // console.log("todo.value")
-      var item = {subject:"todo.value"}
-      items.push(item)
-      dorender(items)
-    }
-    clear_.onclick = function(){
-      items = []
-      clear()
-    }
-    function clear(){
-      var lis = document.querySelectorAll("li")
-      for (var i = 0; i < lis.length; i++) {
-        var li = lis[i]
-        li.remove()
-      }
-    }
-    function dorender(items){
-      clear()
-      for (var i = 0; i < items.length; i++) {
-        var item = items[i]
-        addLiOne(item)
-      }
-    }
-    function addLiOne(item){
-      var str = item.subject
-      var ul = document.getElementById("ul")
-      var li = document.createElement("li");
-      var textNode = document.createTextNode(str)
-      textNode.innerHTML = str
-      {
-        var btn = document. createElement("button")
-        btn.innerHTML = "done"
-        btn.item = item
-        btn.onclick = function(){
-          // textNode 没有style属性的。li才有这个属性。
-          // console.log(textNode.style)
-          console.log("done for "+item.subject)
-          if (li.style["text-decoration"] == "line-through")
-            li.style["text-decoration"] =""
-          else
-            li.style["text-decoration"] ="line-through"
+    // clear()
+    // addSample()
+    // function addSample(){
+    //   var item = {subject:"todo.value",done:false}
+    //   items.push(item)
+    //   var item = {subject:"todo.value1",done:false}
+    //   items.push(item)
+    //   var item = {subject:"todo.value2",done:false}
+    //   items.push(item)
+    //   dorender(items)
+    // }
+    iiii.loadFromRemote(function(){
+        console.log("--")
+        var items = iiii.getAll()
+        dorender(items)
+        var add_ = document.getElementById("add")
+        var todo_ = document.getElementById("todo")
+        var clear_ = document.getElementById("clear")
+        // controller
+        add_.onclick = function(){
+          // console.log("todo.value")
+          var item = {id:111,subject:todo_.value}
+          // items.push(item)
+          iiii.add(item.id,item.subject,function(){
+            dorender(items)  
+          })
+          
         }
-        li.appendChild(btn)
-      }
-      {
-        var btn = document. createElement("button")
-        btn.innerHTML = "X"
-        btn.item = item
-        btn.onclick = function(){li.remove();console.log("remove "+item.subject)}
-        li.appendChild(btn);
-      }
-      li.appendChild(textNode)
-      ul.appendChild(li);
-    }
+        clear_.onclick = function(){
+          items = []
+          clear()
+        }
+        function clear(){
+          var lis = document.querySelectorAll("li")
+          for (var i = 0; i < lis.length; i++) {
+            var li = lis[i]
+            li.remove()
+          }
+        }
+        function dorender(items){
+          clear()
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i]
+            addLiOne(item)
+          }
+        }
+        function addLiOne(item){
+          var str = item.subject
+          var ul = document.getElementById("ul")
+          var li = document.createElement("li");
+          var textNode = document.createTextNode(str)
+          textNode.innerHTML = str
+          {
+            var btn = document. createElement("button")
+            btn.innerHTML = "done"
+            btn.item = item
+            btn.onclick = function(){
+              // textNode 没有style属性的。li才有这个属性。
+              // console.log(textNode.style)
+              if (btn.item.done){
+                li.style["text-decoration"] =""
+                btn.item.done = false
+              }
+              else{
+                li.style["text-decoration"] ="line-through"
+                btn.item.done = true
+              }
+            }
+            li.appendChild(btn)
+          }
+          {
+            var btn = document. createElement("button")
+            btn.innerHTML = "X"
+            btn.item = item
+            btn.onclick = function(){
+                li.remove()
+                iiii.delete(item.id,function(){
+                })
+            }
+            li.appendChild(btn);  
+          }
+          li.appendChild(textNode)
+          ul.appendChild(li);
+          if (item.done){
+              li.style["text-decoration"] ="line-through"
+            }
+            else{
+              li.style["text-decoration"] =""
+            }
+        }
+    })
+    
   }
 </script>
 <div id="app">

@@ -17,6 +17,7 @@ function rs(){
   todos = JSON.parse(fs.readFileSync('a.json', 'utf8'));
   // todos 
 }
+
 rs()
 app.put('/todo/:id', function (req, res) {
   var userkey = parseInt(req.params.id)
@@ -26,9 +27,18 @@ app.put('/todo/:id', function (req, res) {
 })
 app.delete('/todo/:id', function (req, res) {
   var userkey = parseInt(req.params.id)
-  todos.splice(userkey,1)
+  // console.log(userkey)
+  for (var i = 0; i < todos.length; i++) {
+    var todo = todos[i]
+    if (parseInt(todo.id) == userkey){
+      console.log("splice",todos,i)
+      todos.splice(i,1)    
+      console.log("spliced",todos,i)
+      break
+    }
+  }
   res.end( JSON.stringify(todos));
-  rs()
+  saveJson()
 })
 app.get('/todo/:id', function (req, res) {
   var userkey = parseInt(req.params.id)
@@ -41,7 +51,7 @@ app.post('/todo', function (req, res) {
   console.log(req.body)
   todos.push(req.body)
   res.end(JSON.stringify(todos))
-  rs()
+  saveJson()
 })
 app.post('/todos', function (req, res) {
   todos = req.body
@@ -51,6 +61,7 @@ app.post('/todos', function (req, res) {
 })
 function saveJson(){
   var fs = require('fs');
+  console.log(todos)
   fs.writeFile("a.json", JSON.stringify(todos), function(err) {
       if(err) {
           return console.log(err);
