@@ -1,7 +1,7 @@
-function Net(){
+function HTTP(){
 
 }
-Net.prototype.getJson = function(url,done){
+HTTP.prototype.getJson = function(url,done){
   var xmlhttp = new XMLHttpRequest()
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -12,7 +12,7 @@ Net.prototype.getJson = function(url,done){
   xmlhttp.open("GET", url, true)
   xmlhttp.send()
 }
-Net.prototype.postJson = function(url,jsonBody,done){
+HTTP.prototype.postJson = function(url,jsonBody,done){
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -24,7 +24,7 @@ Net.prototype.postJson = function(url,jsonBody,done){
   xmlhttp.setRequestHeader('Content-Type', "application/json")
   xmlhttp.send(JSON.stringify(jsonBody))
 }
-Net.prototype.deleteUrl = function(url,done){
+HTTP.prototype.deleteUrl = function(url,done){
   var xmlhttp = new XMLHttpRequest()
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -35,19 +35,22 @@ Net.prototype.deleteUrl = function(url,done){
   xmlhttp.open("DELETE", url, true)
   xmlhttp.send()
 }
+function Net(){
+  this.h = new HTTP()
+}
 Net.prototype.loadAll = function (callback){
-    this.getJson("/todos",callback)
+    this.h.getJson("/todos",callback)
 }
 Net.prototype.saveAll = function (items,callback){
-    this.postJson("/todos",items,callback)
+    this.h.postJson("/todos",items,callback)
 }
 Net.prototype.delete = function (id,callback){
-  this.deleteUrl("/todo/"+id,function(items){
+  this.h.deleteUrl("/todo/"+id,function(items){
     callback(items)  
   })
 }
 Net.prototype.add = function (item,callback){
-   this.postJson("/todo",item,function(items){
+   this.h.postJson("/todo",item,function(items){
     callback(items) 
    })
 }
@@ -55,5 +58,5 @@ Net.prototype.doneItem = function(item,callback){
     
 }
 Net.prototype.clearAll = function(callback){
-  
+  this.h.postJson("/todos",[],callback)
 }

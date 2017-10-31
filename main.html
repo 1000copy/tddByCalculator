@@ -4,19 +4,6 @@
   var items  = []
   window.onload = function(){
     var iiii = new Items()
-    // ui 
-    // var add = document.querySelectorAll("add")
-    // clear()
-    // addSample()
-    // function addSample(){
-    //   var item = {subject:"todo.value",done:false}
-    //   items.push(item)
-    //   var item = {subject:"todo.value1",done:false}
-    //   items.push(item)
-    //   var item = {subject:"todo.value2",done:false}
-    //   items.push(item)
-    //   dorender(items)
-    // }
     iiii.loadFromRemote(function(){
         console.log("--")
         var items = iiii.getAll()
@@ -40,10 +27,10 @@
         }
         function clear(){
           var lis = document.querySelectorAll("li")
-          for (var i = 0; i < lis.length; i++) {
-            var li = lis[i]
-            li.remove()
-          }
+            for (var i = 0; i < lis.length; i++) {
+              var li = lis[i]
+              li.remove()
+            }
         }
         function dorender(items){
           clear()
