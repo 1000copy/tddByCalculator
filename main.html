@@ -1,62 +1,117 @@
-<script src="src/2.todo.js"></script>
 <script type="text/javascript">
   window.onload = function(){
+    var items  = []
     // ui 
-    var spans = document.querySelectorAll("span")
-    var result = document.getElementById("add")
-    var clear = document.getElementById("clear")
+    // var add = document.querySelectorAll("add")
+    clear()
+    addSample()
+    function addSample(){
+      var item = {subject:"todo.value"}
+      items.push(item)
+      var item = {subject:"todo.value1"}
+      items.push(item)
+      var item = {subject:"todo.value2"}
+      items.push(item)
+      dorender(items)
+    }
+    var add = document.getElementById("add")
     var todo = document.getElementById("todo")
-    var save = document.getElementById("save")
+    var clear_ = document.getElementById("clear")
     // controller
-    var app = new TodoApp()
-    app.render(dorender)
     add.onclick = function(){
-      console.log(todo.value)
-      app.add(todo.value)
-      dorender()
+      // console.log("todo.value")
+      var item = {subject:"todo.value"}
+      items.push(item)
+      dorender(items)
     }
-    clear.onclick = function(){
-      app.clear()
-      dorender()
+    clear_.onclick = function(){
+      items = []
+      clear()
     }
-    save.onclick = function(){
-      app.saveAll()
-    }
-    function dorender(){
-      items = app.items 
+    function clear(){
       var lis = document.querySelectorAll("li")
       for (var i = 0; i < lis.length; i++) {
         var li = lis[i]
         li.remove()
       }
+    }
+    function dorender(items){
+      clear()
       for (var i = 0; i < items.length; i++) {
-        var item = items[i].subject
+        var item = items[i]
         addLiOne(item)
       }
     }
-    function addLiOne(str){
+    function addLiOne(item){
+      var str = item.subject
       var ul = document.getElementById("ul")
       var li = document.createElement("li");
-      li.appendChild(document.createTextNode(str));
+      var textNode = document.createTextNode(str)
+      textNode.innerHTML = str
+      {
+        var btn = document. createElement("button")
+        btn.innerHTML = "done"
+        btn.item = item
+        btn.onclick = function(){
+          // textNode 没有style属性的。li才有这个属性。
+          // console.log(textNode.style)
+          console.log("done for "+item.subject)
+          if (li.style["text-decoration"] == "line-through")
+            li.style["text-decoration"] =""
+          else
+            li.style["text-decoration"] ="line-through"
+        }
+        li.appendChild(btn)
+      }
+      {
+        var btn = document. createElement("button")
+        btn.innerHTML = "X"
+        btn.item = item
+        btn.onclick = function(){li.remove();console.log("remove "+item.subject)}
+        li.appendChild(btn);
+      }
+      li.appendChild(textNode)
       ul.appendChild(li);
     }
   }
 </script>
-<div>
-  <div>
-    <input value="test" id="todo"/>
+<div id="app">
+  <div >
+    <input value="todo item" id="todo"/>
     <button id="add">add</button>
-    <button id="clear">clear done todo</button>
+    <button id="clear">clear all</button>
   </div>  
   <div>
     <ul id="ul">
-      <li><del>something done</del></li>
-      <li>2<button>del</button></li>
-      <li><input value="3"/><button>done</button><button>edit</button></li>
+      <li><button>done</button><button>edit</button><button>del</button><del>something done</del></li>
+      <li><button>done</button><button>edit</button><button>del</button>2></li>
+      <li><button>done</button><button>edit</button><button>del</button>3</li>
     </ul>
   </div>
 </div>
 
 <style>
-
+  div#app{
+    margin:150px auto;
+    background-color: green;
+    width: 500px;
+  }
+  ul{
+    margin-left: 0px;
+    min-height: 300px;
+  }
+  input{
+    background-color: grey;
+    border: 0px;
+    font-size: 26px;
+  }
+  li{
+    padding-top: 10px;
+    list-style: none;
+    background-color: green;
+    font-size: 26px;
+  }
+  button{
+    font-size: 26px;
+  }
 </style>
