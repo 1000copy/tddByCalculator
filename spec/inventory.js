@@ -5,26 +5,26 @@ describe("Inventory Checker", function() {
 
     it("Inventory", function() {
       var warehouse = {
-      	hasInventory:function(){}
+      	hasInventorys:function(){}
       }
-  	  // spyOn(warehouse,"hasInventory").and.callFake(function(){
+  	  // spyOn(warehouse,"hasInventorys").and.callFake(function(){
      //    		return true
   	  // })
-      spyOn(warehouse,"hasInventory").and.returnValue(true)
-      // spyOn(warehouse,"hasInventory").and.returnValue(true)
+      spyOn(warehouse,"hasInventorys").and.returnValue(true)
+      // spyOn(warehouse,"hasInventorys").and.returnValue(true)
       var order = new Order(warehouse)
       order.add("mbp",1)
       var isPosted = order.post()
       expect(isPosted).toEqual(true);
-      // expect(warehouse.hasInventory).not.toHaveBeenCalled();
-      expect(warehouse.hasInventory).toHaveBeenCalled()
+      // expect(warehouse.hasInventorys).not.toHaveBeenCalled();
+      expect(warehouse.hasInventorys).toHaveBeenCalled()
     });
     it("Inventory", function() {
       var warehouse = new Warehouse()
       warehouse.add("mbp",1)
       var order = new Order(warehouse)
       order.add("mbp",1)
-      var r = warehouse.hasInventory(order.details)
+      var r = warehouse.hasInventorys(order.details)
       expect(r).toEqual(true);
     });
     it("Inventory", function() {
@@ -32,7 +32,7 @@ describe("Inventory Checker", function() {
       warehouse.add("mbp",1)
       var order = new Order(warehouse)
       order.add("mbp",2)
-      var r = warehouse.hasInventory(order.details)
+      var r = warehouse.hasInventorys(order.details)
       expect(r).toEqual(false);
     });
   });
