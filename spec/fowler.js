@@ -12,7 +12,7 @@ describe("fowler example for refactor", function() {
     	c.addRental(r2)
     	let r = c.statement()
     	console.log(r)
-      	expect(m1.priceCode).toEqual(NEW_RELEASE);
+      	expect(m1.type).toEqual(NEW_RELEASE);
     });
     xit("one test NEW_RELEASE", function() {
     	var m1 = new Movie("Rome Holidays",NEW_RELEASE)
@@ -27,7 +27,7 @@ describe("fowler example for refactor", function() {
     	c.addRental(r3)
     	let r = c.statement()
     	console.log(r)
-      	expect(m1.priceCode).toEqual(NEW_RELEASE);
+      	expect(m1.type).toEqual(NEW_RELEASE);
     });
     xit("one test NEW_RELEASE amount 1=3,2=6", function() {
     	var m1 = new Movie("Rome Holidays",NEW_RELEASE)
@@ -37,7 +37,7 @@ describe("fowler example for refactor", function() {
     	let r = c.statement()
     	// this amount = 3
     	console.log(r)
-      	expect(m1.priceCode).toEqual(NEW_RELEASE);
+      	expect(m1.type).toEqual(NEW_RELEASE);
     });
     it("one test NEW_RELEASE amount dayRented = 2 then  frequent 2", function() {
     	var m1 = new Movie("Rome Holidays",NEW_RELEASE)
@@ -45,10 +45,11 @@ describe("fowler example for refactor", function() {
     	var r1 = new Rental(m1,2)
     	c.addRental(r1)
     	let r = c.statement()
-    	// this amount = 3
-    	console.log(c)
-    	console.log(r)
-      	expect(m1.priceCode).toEqual(NEW_RELEASE);
+    	expect(r).toMatch(`Rental Record for xiaoming
+Rome Holidays	6
+Amount owed is 6
+You earned 2frequent rental points`)
+      	expect(m1.type).toEqual(NEW_RELEASE);
     });
   });
 });

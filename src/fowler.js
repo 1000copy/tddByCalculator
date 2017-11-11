@@ -2,9 +2,9 @@ let CHICHRENS = 0
 let REGULAR = 1 
 let NEW_RELEASE = 2
 class Movie {
-  constructor(title, priceCode) {
+  constructor(title, type) {
     this.title = title
-    this.priceCode = priceCode
+    this.type = type
   }
 }
 class Rental {
@@ -29,7 +29,7 @@ class Customer {
   		var each = this.rentals[i]
   		// thisAmount
   		var thisAmount = 0
-      switch(each.movie.priceCode){
+      switch(each.movie.type){
   			case REGULAR:
   				thisAmount += 2
   				if (each.daysRented > 2 )
@@ -46,13 +46,13 @@ class Customer {
   		}
   		// frequentRenterPoints
   		frequentRenterPoints++
-  		if ((each.priceCode == NEW_RELEASE) && (each.daysRented > 1))
+  		if ((each.type == NEW_RELEASE) && (each.daysRented > 1))
   			frequentRenterPoints++
   		result += "\t"+each.movie.title +"\t" + thisAmount +"\n"
   		totalAmount += thisAmount
   	}
   	result += "Amount owed is "+totalAmount+"\n"
-  	result += "You earned " + frequentRenterPoints + "frequent rental points"
+  	result += "You earned " + frequentRenterPoints + " frequent rental points"
     return result
   }
 }
