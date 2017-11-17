@@ -1,68 +1,36 @@
 let CHICHRENS = 0 
 let REGULAR = 1 
 let NEW_RELEASE = 2
-class PriceNewRelease{
-  getCharge(daysRented){
-    return daysRented * 3 
-  }
-}
-class PriceRegular{
-  getCharge(daysRented){
-    var result = 0 
-    result += 2
-          if (daysRented > 2 )
-            result += (daysRented - 2 )*1.5
-    return result
-  }
-}
-class PriceChildren{
-  getCharge(daysRented){
-    var result = 0 
-    result += 1.5
-    if (daysRented > 3)
-      result += (daysRented - 3)*1.5
-    return result 
-  }
-}
+
 class Movie {
   constructor(title, type) {
     this.title = title
     this.type = type
-    this.price = this.getPrice(type)
   }
-  getPrice(type){
-    var result 
+  createMovie(){
+    var m = {}
     switch(this.type){
-        case REGULAR:
-          result = new PriceRegular()
-          break
-        case NEW_RELEASE:
-          result = new PriceNewRelease()
-          break
-        case CHICHRENS:
-          result = new PriceChildren()
-          break
+      case REGULAR:
+        m = new RegularMovieType()
+        break
+      case NEW_RELEASE:
+        m = new NewReleaseMovieType()
+        break
+      case CHICHRENS:
+        m = new ChildMovieType()
+        break
     }
-    return result
+    return m
   }
-  getThisAmount(daysRented){
-    return this.price.getCharge(daysRented)
+  getAmount(rental){
+    var m = this.createMovie()
+    return m.getAmount(rental)
   }
 }
 class Rental {
   constructor(movie, daysRented) {
     this.movie = movie
     this.daysRented = daysRented
-  }
-  getFrequentRenterPoints(){
-    var point = 0 
-    point++
-    if ((this.movie.type == NEW_RELEASE) && (this.daysRented > 1))
-        point++
-    return point
-  }
-  getRowStr(){
-    return this.movie.title +"\t" + this.movie.getThisAmount(this.daysRented) +"\n"
   }
 }
 class Customer {
@@ -71,33 +39,64 @@ class Customer {
     this.rentals = []
   }
   addRental(rental){
-  	this.rentals.push(rental)
+    this.rentals.push(rental)
   }
-  getTotalAmount(){
-    var totalAmount = 0 
-    for (var i = 0; i < this.rentals.length; i++) {
-      var each = this.rentals[i]
-      totalAmount += each.movie.getThisAmount(each.daysRented)
-    }
-    return totalAmount
+  getPoint(each){
+    var alpha = 0 
+    alpha++
+    if ((each.movie.type == NEW_RELEASE) && (each.daysRented > 1))
+        alpha++
+    return alpha
   }
   getFrequentRenterPoints(){
     var frequentRenterPoints = 0 
     for (var i = 0; i < this.rentals.length; i++) {
       var each = this.rentals[i]
-      frequentRenterPoints += each.getFrequentRenterPoints()
+      frequentRenterPoints += this.getPoint(each)
     }
     return frequentRenterPoints
   }
-  statement(){
+  getAmount1(){
     var totalAmount = 0 
-  	var result = "Rental Record for " + this.name + "\n"
+     for (var i = 0; i < this.rentals.length; i++) {
+      var each = this.rentals[i]
+      totalAmount += each.movie.getAmount(each)
+    }
+    return totalAmount
+  }
+  statement(){
+    var result = "Rental Record for " + this.name + "\n"
     for (var i = 0; i < this.rentals.length; i++) {
       var each = this.rentals[i]
-      result += each.getRowStr()
+      result += each.movie.title +" " +  each.movie.getAmount(each) +"\n"
     }
-  	result += "Amount owed is "+this.getTotalAmount()+"\n"
-  	result += "You earned " + this.getFrequentRenterPoints() + "frequent rental points"
+    result += "Amount owed is "+this.getAmount1()+"\n"
+    result += "You earned " + this.getFrequentRenterPoints() + " frequent rental points"
     return result
+  }
+}
+class ChildMovieType{
+  getAmount(rental){
+    var result = 0 
+    result += 1.5
+    if (rental.daysRented > 3)
+      result += (daysRented - 3)*1.5
+    return result
+  }
+}
+class NewReleaseMovieType{
+  getAmount(rental){
+    var result = 0
+    result += rental.daysRented * 3 
+    return result
+  }
+}
+class RegularMovieType{
+  getAmount(rental){
+     var result = 0
+     result += 2
+        if (rental.daysRented > 2 )
+          result += (rental.daysRented - 2 )*1.5
+      return result
   }
 }
